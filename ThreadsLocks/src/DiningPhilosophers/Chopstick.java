@@ -1,15 +1,18 @@
 package DiningPhilosophers;
 
 public class Chopstick {
+	private int id;
+
+	public int getId() {
+		return id;
+	}
 	
-	public Philosopher get_philosopher() {
-		return _philosopher;
+	public Chopstick(int id) {
+		this.id = id;
 	}
-
-	public void set_philosopher(Philosopher _philosopher) {
-		this._philosopher = _philosopher;
+	
+	public String getStrId(){
+		return Integer.toString(id);
 	}
-
-	private Philosopher _philosopher;
 	
 }

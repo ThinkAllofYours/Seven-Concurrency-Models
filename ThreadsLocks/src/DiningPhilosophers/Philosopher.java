@@ -3,12 +3,17 @@ package DiningPhilosophers;
 import java.util.Random;
 
 public class Philosopher extends Thread{
-	private Chopstick left, right;
+	private Chopstick first, second;
 	private Random random;
+	private int thinkCount;
 	
 
 	public Philosopher(Chopstick left, Chopstick right) {
-		this.left = left; this.right = right;
+		if(left.getId() < right.getId()){
+			first = left; second = right;
+		}else{
+			first = right; second = left;
+		}
 		random = new Random();
 	}
 	
@@ -16,16 +21,18 @@ public class Philosopher extends Thread{
 	public void run() {
 		try{
 			while(true){
+				++thinkCount;
+//				if(thinkCount % 10 == 0)
+					System.out.println("Philosopher " + this + " has thougnt  -- > " + thinkCount + " times");
 				Thread.sleep(random.nextInt(1000)); //잠시생각한다.
-				synchronized (left) { //왼쪽 젓가락을 든다.
-					synchronized (right) { //오른쪽 젓가락을 든다.
-						Thread.sleep(random.nextInt(1000));
+				synchronized (first) { //첫번째 젓가락을 든다. 
+					System.out.println("Philosopher : " + this + " has chopstick No. " + first.getStrId());
+					synchronized (second) { //두번째 젓가락을 든다.
+						System.out.println("Philosopher : " + this + " has chopstick No. " + second.getStrId());							
+						Thread.sleep(random.nextInt(1000));//잠시먹는다.
 					}
 				}
 			}
-		}catch(Exception ex){
-			
-		}
+		}catch(InterruptedException ex){}
 	}
-	
 }
